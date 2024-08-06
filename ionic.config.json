@@ -1,0 +1,7 @@
+{
+  "name": "Revenuecat111",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
