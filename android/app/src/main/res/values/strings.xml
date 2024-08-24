@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Revenuecat111</string>
+    <string name="title_activity_main">Revenuecat111</string>
+    <string name="package_name">io.lingoapp.revenuecat</string>
+    <string name="custom_url_scheme">io.lingoapp.revenuecat</string>
+</resources>
