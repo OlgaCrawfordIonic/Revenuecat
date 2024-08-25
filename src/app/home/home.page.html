@@ -1,27 +1,16 @@
-<ion-content>
-  <ion-list>
-   
-  
-  </ion-list>
-  <ion-list>
-    <div>Just testing ...2</div>
-    <div >
-     <ion-item-divider>
-      <ion-label>Subscriptions</ion-label>
-     </ion-item-divider>
-   <ion-item *ngFor="let offering of offerings | async ">
-      <ion-label class="ion-text-wrap">
-        {{ offering.product.title }}
-       
-      </ion-label>
-      <ion-button slot="end" fill="outline" (click)="buyPackage(offering)">
-        {{ offering.product.price | number:'1.0-2' | currency: offering.product.currencyCode }}
-      </ion-button>
-    </ion-item>
-      <ion-item>
-        {{subscriptionStatus}}
-      </ion-item>
-    </div>
-  </ion-list>
- 
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-button [routerLink]="['/revenuecat']">Revenuecat</ion-button>
+  <ion-button [routerLink]="['/lessons']">Lessons</ion-button>
+ <ion-button [routerLink]="['/network']">Network</ion-button>
 </ion-content>
+
+<ion-content>
+  

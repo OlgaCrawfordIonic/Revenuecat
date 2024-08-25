@@ -3,6 +3,7 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { Platform } from "@ionic/angular";
 // TS typings for the plugin
 import { Purchases, LOG_LEVEL, CustomerInfo } from '@revenuecat/purchases-capacitor';
+import { UserService } from './user.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Purchases, LOG_LEVEL, CustomerInfo } from '@revenuecat/purchases-capaci
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor(platform: Platform) {
+  constructor(platform: Platform,private userService: UserService) {
     platform.ready().then(async () => {
      
       try{
@@ -27,11 +28,14 @@ export class AppComponent {
         console.log(offerings)
         const customerInfo = await Purchases.getCustomerInfo();
         const entitlements=customerInfo.customerInfo.activeSubscriptions.length;
-      if ( entitlements) 
+      if ( entitlements) {
+        this.userService.updateUserProStatus(true)
+        console.log( "This is customer info " + entitlements)
+      }
       // Grant user "pro" access
      //   this.grantProAccess();
      // }
-     console.log( "This is customer info " + entitlements)
+    
 
       }
       catch (e) {
