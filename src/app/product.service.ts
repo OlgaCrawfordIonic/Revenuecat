@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Purchases, PURCHASES_ERROR_CODE } from '@revenuecat/purchases-capacitor';
+import { Purchases, PURCHASES_ERROR_CODE , CustomerInfo} from '@revenuecat/purchases-capacitor';
+import { LinksService } from './linksService/links.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor(private alertController: AlertController) { }
+  constructor(private alertController: AlertController, private linksService: LinksService) { }
 
   async purchasePackage(packageToBuy: any) {
     try {
@@ -47,4 +48,50 @@ export class ProductService {
     });
     await alert.present();
   }
+
+
+  async checkSubscriptionStatus(): Promise<void> {
+    try {
+     
+      const customerInfo:CustomerInfo = (await Purchases.getCustomerInfo()).customerInfo;
+      const entitlements=customerInfo.activeSubscriptions.length;
+      
+     // const active =customerInfo.entitlements.all["revenuecat_premium_1month"].isActive;
+      //const entitlementId = '<my_entitlement_identifier>';  Replace with your actual entitlement ID
+
+    //  if (entitlementsactive === "revenuecat_premium_1month" || "revenuecat_premium_3months" || "revenuecat_premium_month") {
+    //    // Grant user "pro" access
+     //   this.grantProAccess();  Another way:
+     // }      if ( entitlements.includes("revenuecat_premium_1month" || "revenuecat_premium_3months" || "revenuecat_premium_month")) {
+
+
+     if ( entitlements) {
+     
+      this.linksService.unlockLessons();
+      console.log( "This is customer info " + entitlements);
+      
+     }
+
+     else {  }
+    
+    } catch (error) {
+      console.error('Error checking subscription status', error);
+    }
+  }
+
+ /* handleExistingPermissions(permissions: GlassfyPermission[]) {
+    console.log(permissions);
+    for (const perm of permissions) {
+      if (perm.isValid) {
+        if (perm.permissionId === 'glassfy_premium_monthly_1.99' || 'glassfy_premium_3months_4.99'  || 'glassfy_premium_6months_8.99') {
+         {this.userService.updateUserProStatus(true)}
+          
+    // making the user pro now can install the logic of unlocking lessons
+  }
+  else{console.log('from restore function, not subscribed')}
+  }
+  }
+  }*/
+
+  
 }

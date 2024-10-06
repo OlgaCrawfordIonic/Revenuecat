@@ -5,6 +5,8 @@ import { IonContent, IonHeader, IonTitle, IonToolbar,IonBackButton, IonButtons, 
 import { ProductService } from '../product.service'; // Adjust the path according to your project structure
 import { Purchases,PurchasesOfferings, PurchasesPackage, CustomerInfo, PurchasesEntitlementInfos } from '@revenuecat/purchases-capacitor';
 import { BehaviorSubject } from 'rxjs';
+import { UserService } from '../user.service';
+import { LinksService } from '../linksService/links.service'
 
 
 
@@ -22,7 +24,7 @@ export class RevenuecatPage implements OnInit {
   private _offerings = new BehaviorSubject<PurchasesPackage []>([]);
   //private _offerings = new BehaviorSubject<any[]>([]);
 
-  constructor(private purchaseService: ProductService) {}
+  constructor(private purchaseService: ProductService, private userService:UserService, public linksService:LinksService) {}
 
   ngOnInit() {
     this.getPackages();
@@ -55,14 +57,14 @@ export class RevenuecatPage implements OnInit {
     await this.purchaseService.purchaseStoreProduct(productToBuy);
   }
 
-  async checkSubscriptionStatus(): Promise<void> {
+  async checkSubscriptionStatusOld(): Promise<void> {
     try {
      
       const customerInfo:CustomerInfo = (await Purchases.getCustomerInfo()).customerInfo;
       const entitlements=customerInfo.activeSubscriptions.length;
       
      // const active =customerInfo.entitlements.all["revenuecat_premium_1month"].isActive;
-      const entitlementId = '<my_entitlement_identifier>'; // Replace with your actual entitlement ID
+      //const entitlementId = '<my_entitlement_identifier>';  Replace with your actual entitlement ID
 
     //  if (entitlementsactive === "revenuecat_premium_1month" || "revenuecat_premium_3months" || "revenuecat_premium_month") {
     //    // Grant user "pro" access
@@ -72,7 +74,38 @@ export class RevenuecatPage implements OnInit {
 
      if ( entitlements) {
       this.subscriptionStatus='Subscribed';
+      this.userService.updateUserProStatus(true)
+      console.log( "This is customer info " + entitlements);
+      
+     }
 
+     else {   this.subscriptionStatus='Unssubscribed';}
+     console.log( "This is customer info" + entitlements,  )
+    } catch (error) {
+      console.error('Error checking subscription status', error);
+    }
+  }
+
+
+  async checkSubscriptionStatus(): Promise<void> {
+    try {
+     
+      const customerInfo:CustomerInfo = (await Purchases.getCustomerInfo()).customerInfo;
+      const entitlements=customerInfo.activeSubscriptions.length;
+      
+     // const active =customerInfo.entitlements.all["revenuecat_premium_1month"].isActive;
+      //const entitlementId = '<my_entitlement_identifier>';  Replace with your actual entitlement ID
+
+    //  if (entitlementsactive === "revenuecat_premium_1month" || "revenuecat_premium_3months" || "revenuecat_premium_month") {
+    //    // Grant user "pro" access
+     //   this.grantProAccess();  Another way:
+     // }      if ( entitlements.includes("revenuecat_premium_1month" || "revenuecat_premium_3months" || "revenuecat_premium_month")) {
+
+
+     if ( entitlements) {
+      this.subscriptionStatus='Subscribed';
+      this.linksService.unlockLessons();
+      console.log( "This is customer info " + entitlements);
       
      }
 

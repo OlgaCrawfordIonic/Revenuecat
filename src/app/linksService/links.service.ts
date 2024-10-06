@@ -1,6 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Link } from './link.model';
-
+import { Purchases, CustomerInfo} from '@revenuecat/purchases-capacitor';
+//import { UserService } from 'src/app/user.service';
+import { Subscription } from 'rxjs';
 import { BehaviorSubject, take,map,tap } from 'rxjs';
 
 
@@ -12,9 +14,12 @@ export class LinksService implements OnInit {
   lesson!:boolean;
   num!:number;
   pro:boolean=false;
+  userSub!:Subscription
+
   
   constructor() {
     this.initializeLinks();
+  //  this.checkSubscriptionStatus();
   
   }
 
@@ -1097,6 +1102,9 @@ unlockLesson()
  
 }
 
+resetLinks() {
+  this.initializeLinks(); // Re-initializes the links array
+}
 
 
 
@@ -1121,7 +1129,45 @@ unlockLessons() {
     })
   ).subscribe();
 }
+
+
+async checkSubscriptionStatus(): Promise<void> {
+  try {
+   
+    const customerInfo:CustomerInfo = (await Purchases.getCustomerInfo()).customerInfo;
+    const entitlements=customerInfo.activeSubscriptions.length;
+    
+   // const active =customerInfo.entitlements.all["revenuecat_premium_1month"].isActive;
+    //const entitlementId = '<my_entitlement_identifier>';  Replace with your actual entitlement ID
+
+  //  if (entitlementsactive === "revenuecat_premium_1month" || "revenuecat_premium_3months" || "revenuecat_premium_month") {
+  //    // Grant user "pro" access
+   //   this.grantProAccess();  Another way:
+   // }      if ( entitlements.includes("revenuecat_premium_1month" || "revenuecat_premium_3months" || "revenuecat_premium_month")) {
+
+
+   if ( entitlements) {
+   
+    this.unlockLessons();
+    console.log( "This is customer info " + entitlements);
+    
+   }
+
+   else {  console.log( "This is customer info lessons are not unlocked from css function" + entitlements, ) }
+   console.log( "This is customer info" + entitlements,  )
+  } catch (error) {
+    console.error('Error checking subscription status', error);
+  }
+}
 ngOnInit(): void {
+
+/*  this.userSub=this.userService.user.subscribe(user => {
+    this.pro = user.pro;
+    console.log('Pro status updated1: from links page', this.pro);
+      if (this.pro===true )  {this.unlockLessons() }
+    console.log('after  unlockLessons in lins.service');
+  })*/
+ 
  // this.subscribeToProStatus();
   //this.unlockLessons();
 }

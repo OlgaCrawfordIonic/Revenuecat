@@ -1,13 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>network</ion-title>
-  </ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/home">Back</ion-back-button>
+		</ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">network</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  
+   <ion-button (click)="getStatus()">Get Status</ion-button>
+   <ion-button (click)="switchOnPro()">Switch on pro</ion-button>
+   <ion-button (click)="switchOffPro()">Switch off pro</ion-button>
 </ion-content>

@@ -25,16 +25,27 @@ export class AppComponent {
           await   Purchases.configure({ apiKey: 'goog_RZOendIybwEbFMzqYKvOMHnycrw'});
          }
         const offerings = await Purchases.getOfferings();
-        console.log(offerings)
-        const customerInfo = await Purchases.getCustomerInfo();
+        console.log(  ' from app.cpmponent ' +  offerings);
+
+        this. userService.addCustomerInfoUpdateListener()
+      /*  const customerInfo = await Purchases.getCustomerInfo();
         const entitlements=customerInfo.customerInfo.activeSubscriptions.length;
-      if ( entitlements) {
-        this.userService.updateUserProStatus(true)
-        console.log( "This is customer info " + entitlements)
+        const subscription=customerInfo.customerInfo.activeSubscriptions;//use that
+        const active=customerInfo.customerInfo.entitlements;
+        console.log( 'this is entitlements object'  + active )
+      if ( entitlements>0) {
+      this.userService.updateUserProStatus(true)
+        console.log( "This is customer info " + entitlements, 'subscriptions syntax' + subscription,
+          console.log( 'this is entitlements object'  + active )
+        )
+      }
+
+      else {
+        this.userService.updateUserProStatus(false);
       }
       // Grant user "pro" access
      //   this.grantProAccess();
-     // }
+     // }*/
     
 
       }

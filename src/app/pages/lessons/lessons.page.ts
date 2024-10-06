@@ -7,9 +7,10 @@ import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Link } from '../../linksService/link.model';
 import { ProductService } from '../../product.service'; // Import ProductService
-import { ModalController } from '@ionic/angular';
+import{ ModalController } from '@ionic/angular/standalone';
 import { SubscribeModalComponent } from '../../subscribe-modal/subscribe-modal.component'; // Ensure this component is created and properly set up
 import { UserService } from 'src/app/user.service';
+
 
 
 @Component({
@@ -17,8 +18,8 @@ import { UserService } from 'src/app/user.service';
   templateUrl: './lessons.page.html',
   styleUrls: ['./lessons.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink, AsyncPipe]
-
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink, AsyncPipe,  SubscribeModalComponent ],
+  providers:[SubscribeModalComponent, ModalController]
 })
 export class LessonsPage implements OnInit, OnDestroy {
   links!:Link[]
@@ -27,7 +28,9 @@ export class LessonsPage implements OnInit, OnDestroy {
   userSub!:Subscription
   pro:boolean=false;
 
-  constructor(private linksService: LinksService, private router:Router, private productService:ProductService,private modalCtrl: ModalController, private userService:UserService) { }
+  constructor(private linksService: LinksService, private router:Router, private productService:ProductService,private modalCtrl: ModalController, private userService:UserService) 
+  {   this.productService.checkSubscriptionStatus();
+  }
   message = 'This modal example uses the modalController to present and dismiss modals.';
 
  showIndex(id:number, title:string){
@@ -35,20 +38,25 @@ export class LessonsPage implements OnInit, OnDestroy {
  }
 
  async openModal() {
+  console.log("before modal created")
   const modal = await this.modalCtrl.create({
     component: SubscribeModalComponent,
   });
-  modal.present();
+  console.log("after modal created")
+  await modal.present();
 
-  const { role } = await modal.onWillDismiss();
+  const { data, role } = await modal.onWillDismiss();
 
-  if (role === 'subscribe') {
-    this.router.navigate(['/glussfy']); // Replace with actual subscription page route
+  if (role === 'confirm') {
+    this.message = `Hello, ${data}!`;
+    this.router.navigate(['/revenuecat']);
+  } else if (role === 'cancel') {
+    this.message = 'Subscription cancelled.';
   }
 }
   navigate(num:number,link:string | undefined, id :string | undefined, locked: boolean | undefined ){
-   if(locked ===false || this.pro===true)//check if the lesson is locked 
-     
+  // if(locked ===false || this.pro===true)//check if the lesson is locked 
+  if(locked ===false )
     {this.linksService.num=num;//Lesson N
     this.linksService.lesson=true;//to show Lesson N in the title
     this.router.navigate([link, id]);}
@@ -75,9 +83,11 @@ export class LessonsPage implements OnInit, OnDestroy {
         // Perform any other operations with the links data
       });
 
+    
      this.userSub=this.userService.user.subscribe(user => {
        this.pro = user.pro;
-        
+      
+        // if (this.pro==true )  {this.linksService.unlockLessons() }
        console.log('Pro status updated1: from lessons page', this.pro);
      })
     

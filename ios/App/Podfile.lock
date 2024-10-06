@@ -8,6 +8,8 @@ PODS:
     - Capacitor
   - CapacitorKeyboard (6.0.1):
     - Capacitor
+  - CapacitorNetwork (6.0.2):
+    - Capacitor
   - CapacitorStatusBar (6.0.0):
     - Capacitor
   - PurchasesHybridCommon (13.0.0):
@@ -23,6 +25,7 @@ DEPENDENCIES:
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorHaptics (from `../../node_modules/@capacitor/haptics`)"
   - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
+  - "CapacitorNetwork (from `../../node_modules/@capacitor/network`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
   - "RevenuecatPurchasesCapacitor (from `../../node_modules/@revenuecat/purchases-capacitor`)"
 
@@ -42,6 +45,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/haptics"
   CapacitorKeyboard:
     :path: "../../node_modules/@capacitor/keyboard"
+  CapacitorNetwork:
+    :path: "../../node_modules/@capacitor/network"
   CapacitorStatusBar:
     :path: "../../node_modules/@capacitor/status-bar"
   RevenuecatPurchasesCapacitor:
@@ -53,11 +58,12 @@ SPEC CHECKSUMS:
   CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
   CapacitorHaptics: 9ebc9363f0e9b8eb4295088a0b474530acf1859b
   CapacitorKeyboard: 5f32a712adf41e07a61caafb82cf29fb6d8ba123
+  CapacitorNetwork: 8796cf1f1104a00b289957b6150b7c60e1c2a8d3
   CapacitorStatusBar: 2e4369f99166125435641b1908d05f561eaba6f6
   PurchasesHybridCommon: ebf821766759155e09b710baa73264a37a4e62f0
   RevenueCat: ba985d80069c1c4b9c9e0763f1852f2a0bdcc2d6
   RevenuecatPurchasesCapacitor: 5f3cd0572ba0c58cbe18a1ec020d306c7a6d08e2
 
-PODFILE CHECKSUM: de86b1ebbda61d9298fafa33714b7f519a2f4d64
+PODFILE CHECKSUM: 4809b1207cbd90646c8a698eeb28a9516189e06f
 
 COCOAPODS: 1.15.2
